@@ -10,13 +10,13 @@ public class Employee {
 
     private final String id;
     private String name;
-    private double grossSalary;
+    private double baseSalary;
 
     // constructor
     public Employee(String id, String name, double grossSalary) {
         this.id = id;
         this.name = name;
-        this.grossSalary = truncateSalary(grossSalary);
+        this.baseSalary = truncateSalary(grossSalary);
     }
 
     // getters
@@ -29,11 +29,11 @@ public class Employee {
     }
 
     public double getGrossSalary() {
-        return this.grossSalary;
+        return this.baseSalary;
     }
 
     public double getNetSalary() {
-        return truncateSalary(this.grossSalary - (this.grossSalary * INCOME_TAX));
+        return truncateSalary(this.baseSalary - (this.baseSalary * INCOME_TAX));
     }
 
     // setters
@@ -42,7 +42,7 @@ public class Employee {
     }
 
     public void setGrossSalary(double grossSalary) {
-        this.grossSalary = truncateSalary(grossSalary);
+        this.baseSalary = truncateSalary(grossSalary);
     }
 
     protected double truncateSalary(double salary) {
@@ -69,7 +69,7 @@ public class Employee {
 
     public String toString() {
         // <name>’s gross salary is <gross_salary> SEK per month.
-        double truncatedSalary = truncateSalary(this.grossSalary);
+        double truncatedSalary = truncateSalary(this.baseSalary);
         return String.format("%s's gross salary is %.2f SEK per month.", this.name, truncatedSalary);
     }
 }

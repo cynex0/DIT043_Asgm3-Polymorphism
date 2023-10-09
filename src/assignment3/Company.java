@@ -38,6 +38,14 @@ public class Company {
         return String.format("Employee %s was registered successfully.", id);
     }
 
+    public String createEmployee(String id, String name, double grossSalary, int gpa) {
+        Employee newEmployee = new Intern(id, name, grossSalary, gpa);
+        employees.put(id, newEmployee);
+
+        // Employee <ID> was registered successfully.
+        return String.format("Employee %s was registered successfully.", id);
+    }
+
     public String printEmployee(String id) {
         Employee employee = employees.get(id); // TODO: Exception
         return employee.toString();
