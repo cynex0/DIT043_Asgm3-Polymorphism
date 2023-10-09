@@ -45,7 +45,7 @@ public class Employee {
         this.grossSalary = truncateSalary(grossSalary);
     }
 
-    private double truncateSalary(double salary) {
+    protected double truncateSalary(double salary) {
         int salaryInt = (int)(salary * 100);
         double truncatedSalary = salaryInt / 100.0;
         return truncatedSalary;
