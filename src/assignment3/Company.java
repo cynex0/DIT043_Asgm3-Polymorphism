@@ -1,6 +1,5 @@
 package assignment3;
-
-import java.util.HashMap;
+import java.util.*;
 
 /*
 The company begins with no Employee registered and should: i) register, ii) remove, iii) retrieve,
@@ -8,6 +7,8 @@ iv) update its employees, calculate the total expenses by paying v) gross salari
 vii) inform the total number of employees registered. In addition, be aware of the following cases:
 */
 public class Company {
+    private static final String EOL = System.lineSeparator();
+
     private HashMap<String, Employee> employees;
 
     public Company() {
@@ -46,13 +47,83 @@ public class Company {
         return String.format("Employee %s was registered successfully.", id);
     }
 
-    public String printEmployee(String id) {
-        Employee employee = employees.get(id); // TODO: Exception
-        return employee.toString();
-    }
-
     public double getNetSalary(String id) {
         Employee employee = employees.get(id); // TODO: Exception
         return employee.getNetSalary();
+    }
+
+    public String removeEmployee(String id) {
+        if (!this.employees.containsKey(id)) {
+            return "Error"; // TODO: Exception
+        }
+
+        this.employees.remove(id);
+        return "Employee " + id + " was successfully removed.";
+    }
+
+    public String printEmployee(String id) {
+        if (!this.employees.containsKey(id)) {
+            return "Error"; // TODO: Exception
+        }
+
+        return employees.get(id).toString();
+    }
+
+    public String printAllEmployees() {
+        String message = "All registered employees:" + EOL;
+
+        for (Employee empl : this.employees.values()) {
+            message += empl.toString() + EOL;
+        }
+
+        return message;
+    }
+
+    public double getTotalNetSalary() {
+        double total = 0.0;
+        for (Employee empl : this.employees.values()) {
+            total = total + empl.getNetSalary();
+        }
+        return total;
+    }
+
+    public String printSortedEmployees() {
+        String message = "Employees sorted by gross salary (ascending order):" + EOL;
+        Collection<Employee> values = this.employees.values();
+        ArrayList<Employee> sortedEmployees = new ArrayList<>(values);
+        Collections.sort(sortedEmployees);
+
+        for (Employee empl : sortedEmployees) {
+            message += empl.toString() + EOL;
+        }
+
+        return message;
+    }
+
+
+    public Map<String, Integer> mapEachDegree() {
+        HashMap<String, Integer> degreesMap = new HashMap<>();
+        degreesMap.put("BSc", 0);
+        degreesMap.put("MSc", 0);
+        degreesMap.put("PhD", 0);
+
+        for (Employee empl : this.employees.values()) {
+            if (empl instanceof Manager) {
+                Manager manager = (Manager)empl;
+                String degree = manager.getDegree();
+                degreesMap.put(degree, degreesMap.get(degree) + 1);
+            }
+        }
+
+        // clean up empty keys
+        Iterator<Map.Entry<String, Integer>> iterator = degreesMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, Integer> entry = iterator.next();
+            if (entry.getValue() == 0){
+                iterator.remove();
+            }
+        }
+
+        return degreesMap;
     }
 }

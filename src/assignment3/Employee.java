@@ -5,7 +5,7 @@ and can be later retrieved. The name and salary of an employee can be changed, b
 Two employees are equals if they have the same ID. Employees should be represented as the following String:
  */
 
-public class Employee {
+public class Employee implements Comparable<Employee> {
     public static final double INCOME_TAX = 0.1;
 
     private final String id;
@@ -71,5 +71,15 @@ public class Employee {
         // <name>’s gross salary is <gross_salary> SEK per month.
         double truncatedSalary = truncateSalary(this.baseSalary);
         return String.format("%s's gross salary is %.2f SEK per month.", this.name, truncatedSalary);
+    }
+
+    public int compareTo(Employee empl) {
+        if (this.getGrossSalary() > empl.getGrossSalary()) {
+            return 1;
+        }
+        if (this.getGrossSalary() < empl.getGrossSalary()) {
+            return -1;
+        }
+        return 0;
     }
 }
