@@ -1,11 +1,6 @@
 package assignment3;
 import java.util.*;
 
-/*
-The company begins with no Employee registered and should: i) register, ii) remove, iii) retrieve,
-iv) update its employees, calculate the total expenses by paying v) gross salaries and vi) net salaries, and, finally,
-vii) inform the total number of employees registered. In addition, be aware of the following cases:
-*/
 public class Company {
     private static final String EOL = System.lineSeparator();
 
