@@ -9,10 +9,10 @@ vii) inform the total number of employees registered. In addition, be aware of t
 public class Company {
     private static final String EOL = System.lineSeparator();
 
-    private HashMap<String, Employee> employees;
+    private LinkedHashMap<String, Employee> employees;
 
     public Company() {
-        this.employees = new HashMap<>();
+        this.employees = new LinkedHashMap<>();
     }
 
     public String createEmployee(String id, String name, double grossSalary) {
@@ -51,22 +51,23 @@ public class Company {
         Employee employee = employees.get(id); // TODO: Exception
         return employee.getNetSalary();
     }
+    
+    private Employee retrieveEmployee(String id) {
+//        if (!this.employees.containsKey(id)) {
+//            throw ; // TODO: Exception
+//        }
+        Employee empl = employees.get(id);
+        return empl;
+    }
 
     public String removeEmployee(String id) {
-        if (!this.employees.containsKey(id)) {
-            return "Error"; // TODO: Exception
-        }
-
-        this.employees.remove(id);
+        this.employees.remove(id); // TODO: catch exception
         return "Employee " + id + " was successfully removed.";
     }
 
     public String printEmployee(String id) {
-        if (!this.employees.containsKey(id)) {
-            return "Error"; // TODO: Exception
-        }
-
-        return employees.get(id).toString();
+        Employee empl = this.retrieveEmployee(id);
+        return empl.toString();
     }
 
     public String printAllEmployees() {
@@ -127,7 +128,7 @@ public class Company {
         return degreesMap;
     }
 
-    public String printByDegree() {
+    public String printByDegree() { // never used, but required in specification
         String message = "Academic background of employees:" + EOL;
         Map<String, Integer> degreesMap = mapEachDegree();
 
@@ -138,21 +139,13 @@ public class Company {
     }
 
     public String updateEmployeeName(String id, String newName) {
-        if (!this.employees.containsKey(id)) {
-            return "Error"; // TODO: Exception
-        }
-
-        Employee empl = this.employees.get(id);
+        Employee empl = this.retrieveEmployee(id);
         empl.setName(newName);
         return "Employee " + id + " was updated successfully";
     }
 
     public String updateGrossSalary(String id, double newGross) {
-        if (!this.employees.containsKey(id)) {
-            return "Error"; // TODO: Exception
-        }
-
-        Employee empl = this.employees.get(id);
+        Employee empl = this.retrieveEmployee(id);
         empl.updateRawSalary(newGross);
         return "Employee " + id + " was updated successfully";
     }
@@ -198,4 +191,45 @@ public class Company {
         director.updateDepartment(newDept);
         return "Employee " + id + " was updated successfully";
     }
+
+    public String promoteToManager(String id, String degree) {
+        Employee empl = retrieveEmployee(id);
+        String name = empl.getName();
+        double rawSalary = empl.getRawSalary();
+
+        Manager manager = new Manager(id, name, rawSalary, degree);
+
+        this.employees.remove(id);
+        this.employees.put(id, manager);
+
+        return id + " promoted successfully to Manager.";
+    }
+
+    public String promoteToDirector(String id, String degree, String dept) {
+        Employee empl = retrieveEmployee(id);
+        String name = empl.getName();
+        double rawSalary = empl.getRawSalary();
+
+        Director director = new Director(id, name, rawSalary, degree, dept);
+
+        this.employees.remove(id);
+        this.employees.put(id, director);
+
+        return id + " promoted successfully to Director.";
+    }
+
+    public String promoteToIntern(String id, int gpa) {
+        Employee empl = retrieveEmployee(id);
+        String name = empl.getName();
+        double rawSalary = empl.getRawSalary();
+
+        Intern intern = new Intern(id, name, rawSalary, gpa);
+
+        this.employees.remove(id);
+        this.employees.put(id, intern);
+
+        return id + " promoted successfully to Intern.";
+    }
+
+
 }
