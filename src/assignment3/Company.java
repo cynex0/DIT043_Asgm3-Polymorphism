@@ -16,7 +16,7 @@ public class Company {
     }
 
     public String createEmployee(String id, String name, double grossSalary) {
-        Employee newEmployee = new Employee(id, name, grossSalary);
+        Employee newEmployee = new RegularEmployee(id, name, grossSalary);
         employees.put(id, newEmployee);
 
         // Employee <ID> was registered successfully.
@@ -153,7 +153,7 @@ public class Company {
         }
 
         Employee empl = this.employees.get(id);
-        empl.setGrossSalary(newGross);
+        empl.updateRawSalary(newGross);
         return "Employee " + id + " was updated successfully";
     }
 

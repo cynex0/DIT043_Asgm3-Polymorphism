@@ -21,10 +21,10 @@ public class Intern extends Employee {
             return 0;
         }
         else if (gpa < 8) {
-            return super.getGrossSalary();
+            return this.getRawSalary();
         }
         else {
-            return super.getGrossSalary() + BENEFIT;
+            return this.getRawSalary() + BENEFIT;
         }
     }
 

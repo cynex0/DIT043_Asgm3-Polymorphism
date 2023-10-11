@@ -1,17 +1,23 @@
 package assignment3;
 
-public class Employee implements Comparable<Employee> {
-    public static final double INCOME_TAX = 0.1;
+public abstract class Employee implements Comparable<Employee> {
+    public static final double BASE_TAX = 0.1;
 
     private final String id;
     private String name;
-    private double baseSalary;
+    private double rawSalary;
 
     // constructor
     public Employee(String id, String name, double grossSalary) {
         this.id = id;
         this.name = name;
-        this.baseSalary = truncateSalary(grossSalary);
+        this.rawSalary = truncateSalary(grossSalary);
+    }
+
+    protected double truncateSalary(double salary) {
+        int salaryInt = (int)(salary * 100);
+        double truncatedSalary = salaryInt / 100.0;
+        return truncatedSalary;
     }
 
     // getters
@@ -23,30 +29,25 @@ public class Employee implements Comparable<Employee> {
         return this.name;
     }
 
-    public double getGrossSalary() {
-        return this.baseSalary;
+    public double getRawSalary() {
+        return this.rawSalary;
     }
 
-    public double getNetSalary() {
-        return truncateSalary(this.baseSalary - (this.baseSalary * INCOME_TAX));
-    }
+    public abstract double getGrossSalary();
 
+    public abstract double getNetSalary();
     // setters
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setGrossSalary(double grossSalary) {
-        this.baseSalary = truncateSalary(grossSalary);
-    }
-
-    protected double truncateSalary(double salary) {
-        int salaryInt = (int)(salary * 100);
-        double truncatedSalary = salaryInt / 100.0;
-        return truncatedSalary;
+    public void updateRawSalary(double newSalary) {
+        this.rawSalary = truncateSalary(newSalary);
     }
 
     // overrides
+    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -62,12 +63,14 @@ public class Employee implements Comparable<Employee> {
         return this.id.equals(other.id);
     }
 
+    @Override
     public String toString() {
         // <name>’s gross salary is <gross_salary> SEK per month.
-        double truncatedSalary = truncateSalary(this.baseSalary);
+        double truncatedSalary = truncateSalary(this.rawSalary);
         return String.format("%s's gross salary is %.2f SEK per month.", this.name, truncatedSalary);
     }
 
+    @Override
     public int compareTo(Employee empl) {
         if (this.getGrossSalary() > empl.getGrossSalary()) {
             return 1;

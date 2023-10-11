@@ -25,13 +25,13 @@ public class Manager extends Employee {
     }
 
     public double getGrossSalary() {
-        double baseGrossSalary = super.getGrossSalary();
-        return baseGrossSalary + (baseGrossSalary * bonusMultiplier);
+        double rawSalary = this.getRawSalary();
+        return rawSalary + (rawSalary * bonusMultiplier);
     }
 
     public double getNetSalary() {
         double grossSalary = this.getGrossSalary();
-        return truncateSalary(grossSalary - (grossSalary * INCOME_TAX));
+        return truncateSalary(grossSalary - (grossSalary * BASE_TAX));
     }
 
     public String getDegree() {
