@@ -1,10 +1,5 @@
 package assignment3;
 
-/* Each employee has an ID (String), a name and a gross salary specified during the Employee’s creation,
-and can be later retrieved. The name and salary of an employee can be changed, but their ID cannot change.
-Two employees are equals if they have the same ID. Employees should be represented as the following String:
- */
-
 public class Employee implements Comparable<Employee> {
     public static final double INCOME_TAX = 0.1;
 

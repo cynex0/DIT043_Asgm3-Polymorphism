@@ -126,4 +126,76 @@ public class Company {
 
         return degreesMap;
     }
+
+    public String printByDegree() {
+        String message = "Academic background of employees:" + EOL;
+        Map<String, Integer> degreesMap = mapEachDegree();
+
+        for (Map.Entry<String, Integer> entry : degreesMap.entrySet()) {
+            message += entry.getKey() + ": => " + entry.getValue();
+        }
+        return message;
+    }
+
+    public String updateEmployeeName(String id, String newName) {
+        if (!this.employees.containsKey(id)) {
+            return "Error"; // TODO: Exception
+        }
+
+        Employee empl = this.employees.get(id);
+        empl.setName(newName);
+        return "Employee " + id + " was updated successfully";
+    }
+
+    public String updateGrossSalary(String id, double newGross) {
+        if (!this.employees.containsKey(id)) {
+            return "Error"; // TODO: Exception
+        }
+
+        Employee empl = this.employees.get(id);
+        empl.setGrossSalary(newGross);
+        return "Employee " + id + " was updated successfully";
+    }
+
+    public String updateInternGPA(String id, int newGpa) {
+        if (!this.employees.containsKey(id)) {
+            return "Error"; // TODO: Exception
+        }
+        Employee empl = employees.get(id);
+        if (!(empl instanceof Intern)) {
+            return "Error"; // TODO: Exception
+        }
+
+        Intern intern = (Intern)empl;
+        intern.updateGpa(newGpa);
+        return "Employee " + id + " was updated successfully";
+    }
+
+    public String updateManagerDegree(String id, String newDegree) {
+        if (!this.employees.containsKey(id)) {
+            return "Error"; // TODO: Exception
+        }
+        Employee empl = employees.get(id);
+        if (!(empl instanceof Manager)) {
+            return "Error"; // TODO: Exception
+        }
+
+        Manager manager = (Manager)empl;
+        manager.updateDegree(newDegree);
+        return "Employee " + id + " was updated successfully";
+    }
+
+    public String updateDirectorDept(String id, String newDept) {
+        if (!this.employees.containsKey(id)) {
+            return "Error"; // TODO: Exception
+        }
+        Employee empl = employees.get(id);
+        if (!(empl instanceof Director)) {
+            return "Error"; // TODO: Exception
+        }
+
+        Director director = (Director)empl;
+        director.updateDepartment(newDept);
+        return "Employee " + id + " was updated successfully";
+    }
 }
