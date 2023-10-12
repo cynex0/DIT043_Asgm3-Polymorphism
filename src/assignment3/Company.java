@@ -11,31 +11,23 @@ public class Company {
     }
 
     public String createEmployee(String id, String name, double grossSalary) throws Exception {
-        Employee newEmployee = new RegularEmployee(id, name, grossSalary);
+        Employee newEmployee = EmployeeFactory.createRegularEmployee(id, name, grossSalary);
         return this.putEmployee(id, newEmployee);
     }
 
     public String createEmployee(String id, String name, double grossSalary, String degree) throws Exception {
-        Employee newEmployee = new Manager(id, name, grossSalary, degree);
+        Employee newEmployee = EmployeeFactory.createManager(id, name, grossSalary, degree);
         return this.putEmployee(id, newEmployee);
     }
 
     public String createEmployee(String id, String name, double grossSalary, String degree, String dept) throws Exception {
-        Employee newEmployee = new Director(id, name, grossSalary, degree, dept);
+        Employee newEmployee = EmployeeFactory.createDirector(id, name, grossSalary, degree, dept);
         return this.putEmployee(id, newEmployee);
     }
 
     public String createEmployee(String id, String name, double grossSalary, int gpa) throws Exception {
-        Employee newEmployee = new Intern(id, name, grossSalary, gpa);
+        Employee newEmployee = EmployeeFactory.createIntern(id, name, grossSalary, gpa);
         return this.putEmployee(id, newEmployee);
-    }
-
-    private Employee retrieveEmployee(String id) throws Exception {
-        if (!this.employees.containsKey(id)) {
-            throw new Exception("Employee " + id + " was not registered yet.");
-        }
-        Employee empl = employees.get(id);
-        return empl;
     }
 
     private String putEmployee(String id, Employee empl) throws Exception {
@@ -47,9 +39,13 @@ public class Company {
         return String.format("Employee %s was registered successfully.", id); // Employee <ID> was registered successfully.
     }
 
-    public double getNetSalary(String id) throws Exception {
-        Employee employee = retrieveEmployee(id); // TODO: Exception
-        return employee.getNetSalary();
+    private Employee retrieveEmployee(String id) throws Exception {
+        if (!this.employees.containsKey(id)) {
+            throw new Exception("Employee " + id + " was not registered yet.");
+        }
+
+        Employee empl = employees.get(id);
+        return empl;
     }
 
     public String removeEmployee(String id) throws Exception {
@@ -61,22 +57,9 @@ public class Company {
         return "Employee " + id + " was successfully removed.";
     }
 
-    public String printEmployee(String id) throws Exception {
-        Employee empl = this.retrieveEmployee(id);
-        return empl.toString();
-    }
-
-    public String printAllEmployees() throws Exception {
-        if (employees.isEmpty()) {
-            throw new Exception("No employees registered yet.");
-        }
-
-        String message = "All registered employees:" + EOL;
-        for (Employee empl : this.employees.values()) {
-            message += empl.toString() + EOL;
-        }
-
-        return message;
+    public double getNetSalary(String id) throws Exception {
+        Employee employee = retrieveEmployee(id);
+        return employee.getNetSalary();
     }
 
     public double getTotalNetSalary() throws Exception {
@@ -90,24 +73,6 @@ public class Company {
         }
         return total;
     }
-
-    public String printSortedEmployees() throws Exception {
-        if (employees.isEmpty()) {
-            throw new Exception("No employees registered yet.");
-        }
-
-        String message = "Employees sorted by gross salary (ascending order):" + EOL;
-        Collection<Employee> values = this.employees.values();
-        ArrayList<Employee> sortedEmployees = new ArrayList<>(values);
-        Collections.sort(sortedEmployees);
-
-        for (Employee empl : sortedEmployees) {
-            message += empl.toString() + EOL;
-        }
-
-        return message;
-    }
-
 
     public Map<String, Integer> mapEachDegree() throws Exception {
         if (employees.isEmpty()) {
@@ -139,13 +104,48 @@ public class Company {
         return degreesMap;
     }
 
-    public String printByDegree() throws Exception { // never used, but required in specification
+    public String printEachDegree() throws Exception { // never used, but required in specification
         String message = "Academic background of employees:" + EOL;
         Map<String, Integer> degreesMap = mapEachDegree();
 
         for (Map.Entry<String, Integer> entry : degreesMap.entrySet()) {
             message += entry.getKey() + ": => " + entry.getValue();
         }
+        return message;
+    }
+
+    public String printEmployee(String id) throws Exception {
+        Employee empl = this.retrieveEmployee(id);
+        return empl.toString();
+    }
+
+    public String printAllEmployees() throws Exception {
+        if (employees.isEmpty()) {
+            throw new Exception("No employees registered yet.");
+        }
+
+        String message = "All registered employees:" + EOL;
+        for (Employee empl : this.employees.values()) {
+            message += empl.toString() + EOL;
+        }
+
+        return message;
+    }
+
+    public String printSortedEmployees() throws Exception {
+        if (employees.isEmpty()) {
+            throw new Exception("No employees registered yet.");
+        }
+
+        String message = "Employees sorted by gross salary (ascending order):" + EOL;
+        Collection<Employee> values = this.employees.values();
+        ArrayList<Employee> sortedEmployees = new ArrayList<>(values);
+        Collections.sort(sortedEmployees);
+
+        for (Employee empl : sortedEmployees) {
+            message += empl.toString() + EOL;
+        }
+
         return message;
     }
 
@@ -157,19 +157,7 @@ public class Company {
 
     public String updateGrossSalary(String id, double newGross) throws Exception {
         Employee empl = this.retrieveEmployee(id);
-        empl.updateRawSalary(newGross);
-        return "Employee " + id + " was updated successfully";
-    }
-
-    public String updateInternGPA(String id, int newGpa) throws Exception {
-        Employee empl = retrieveEmployee(id);
-
-        if (!(empl instanceof Intern)) {
-            return "Error"; // TODO: Exception
-        }
-
-        Intern intern = (Intern)empl;
-        intern.updateGpa(newGpa);
+        empl.setBaseSalary(newGross);
         return "Employee " + id + " was updated successfully";
     }
 
@@ -197,13 +185,25 @@ public class Company {
         return "Employee " + id + " was updated successfully";
     }
 
+    public String updateInternGPA(String id, int newGpa) throws Exception {
+        Employee empl = retrieveEmployee(id);
+
+        if (!(empl instanceof Intern)) {
+            return "Error"; // TODO: Exception
+        }
+
+        Intern intern = (Intern)empl;
+        intern.updateGpa(newGpa);
+        return "Employee " + id + " was updated successfully";
+    }
+
     public String promoteToManager(String id, String degree) throws Exception {
         Employee empl = retrieveEmployee(id);
 
         String name = empl.getName();
-        double rawSalary = empl.getRawSalary();
+        double rawSalary = empl.getBaseSalary();
 
-        Manager manager = new Manager(id, name, rawSalary, degree);
+        Employee manager = EmployeeFactory.createManager(id, name, rawSalary, degree);
 
         this.employees.remove(id);
         this.employees.put(id, manager);
@@ -215,9 +215,9 @@ public class Company {
         Employee empl = retrieveEmployee(id);
 
         String name = empl.getName();
-        double rawSalary = empl.getRawSalary();
+        double rawSalary = empl.getBaseSalary();
 
-        Director director = new Director(id, name, rawSalary, degree, dept);
+        Employee director = EmployeeFactory.createDirector(id, name, rawSalary, degree, dept);
 
         this.employees.remove(id);
         this.employees.put(id, director);
@@ -229,15 +229,13 @@ public class Company {
         Employee empl = retrieveEmployee(id);
 
         String name = empl.getName();
-        double rawSalary = empl.getRawSalary();
+        double rawSalary = empl.getBaseSalary();
 
-        Intern intern = new Intern(id, name, rawSalary, gpa);
+        Employee intern = EmployeeFactory.createIntern(id, name, rawSalary, gpa);
 
         this.employees.remove(id);
         this.employees.put(id, intern);
 
         return id + " promoted successfully to Intern.";
     }
-
-
 }
