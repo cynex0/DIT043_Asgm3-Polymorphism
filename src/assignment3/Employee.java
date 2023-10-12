@@ -8,7 +8,17 @@ public abstract class Employee implements Comparable<Employee> {
     private double rawSalary;
 
     // constructor
-    public Employee(String id, String name, double grossSalary) {
+    public Employee(String id, String name, double grossSalary) throws Exception {
+        if (id.isBlank()) {
+            throw new Exception("ID cannot be blank.");
+        }
+        if (name.isBlank()) {
+            throw new Exception("Name cannot be blank.");
+        }
+        if (grossSalary <= 0) {
+            throw new Exception("Salary must be greater than zero.");
+        }
+
         this.id = id;
         this.name = name;
         this.rawSalary = truncateSalary(grossSalary);
@@ -38,11 +48,17 @@ public abstract class Employee implements Comparable<Employee> {
     public abstract double getNetSalary();
     // setters
 
-    public void setName(String name) {
+    public void setName(String name) throws Exception {
+        if (name.isBlank()) {
+            throw new Exception("Name cannot be blank.");
+        }
         this.name = name;
     }
 
-    public void updateRawSalary(double newSalary) {
+    public void updateRawSalary(double newSalary) throws Exception {
+        if (newSalary <= 0) {
+            throw new Exception("Salary must be greater than zero.");
+        }
         this.rawSalary = truncateSalary(newSalary);
     }
 

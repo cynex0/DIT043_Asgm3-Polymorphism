@@ -4,16 +4,16 @@ public class Manager extends Employee {
     private String degree;
     private double bonusMultiplier;
 
-    public Manager(String id, String name, double grossSalary, String degree) {
+    public Manager(String id, String name, double grossSalary, String degree) throws Exception {
         super(id, name, grossSalary);
         updateDegree(degree);
     }
 
-    public void updateDegree(String newDegree) {
+    public void updateDegree(String newDegree) throws Exception {
         if (newDegree.equals("BSc") || newDegree.equals("MSc") || newDegree.equals("PhD")) {
             this.degree = newDegree;
         } else {
-            this.degree = "";
+            throw new Exception("Degree must be one of the options: BSc, MSc or PhD.");
         }
 
         switch (degree) {

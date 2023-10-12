@@ -5,7 +5,7 @@ public class Director extends Manager {
 
     private Department department;
 
-    public Director(String id, String name, double grossSalary, String degree, String dept) {
+    public Director(String id, String name, double grossSalary, String degree, String dept) throws Exception {
         super(id, name, grossSalary, degree);
         updateDepartment(dept);
     }
@@ -25,11 +25,12 @@ public class Director extends Manager {
         }
     }
 
-    public void updateDepartment(String newDept) {
+    public void updateDepartment(String newDept) throws Exception {
         switch (newDept) {
             case "Human Resources" -> this.department = Department.HUMAN_RESOURCES;
             case "Technical" -> this.department = Department.TECHNICAL;
             case "Business" -> this.department = Department.BUSINESS;
+            default -> throw new Exception("Department must be one of the options: Business, Human Resources or Technical.");
         }
     }
 

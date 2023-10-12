@@ -2,7 +2,7 @@ package assignment3;
 
 public class RegularEmployee extends Employee {
 
-    public RegularEmployee(String id, String name, double grossSalary){
+    public RegularEmployee(String id, String name, double grossSalary) throws Exception {
         super(id, name, grossSalary);
     }
 
