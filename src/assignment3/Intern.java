@@ -5,17 +5,17 @@ public class Intern extends Employee {
 
     private int gpa;
 
-    public Intern(String id, String name, double grossSalary, int gpa) throws Exception {
+    public Intern(String id, String name, double grossSalary, int gpa) throws EmployeeAttributeException {
         super(id, name, grossSalary);
         updateGpa(gpa);
     }
 
-    public void updateGpa(int newGpa) throws Exception {
+    public void updateGpa(int newGpa) throws EmployeeAttributeException {
         if (newGpa >= 0 && newGpa <= 10) {
             this.gpa = newGpa;
         }
         else {
-            throw new Exception(newGpa + " outside range. Must be between 0-10.");
+            throw new EmployeeAttributeException(newGpa + " outside range. Must be between 0-10.");
         }
     }
 

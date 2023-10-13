@@ -10,61 +10,61 @@ public class Company {
         this.employees = new LinkedHashMap<>();
     }
 
-    public String createEmployee(String id, String name, double grossSalary) throws Exception {
+    public String createEmployee(String id, String name, double grossSalary) throws EmployeeAttributeException {
         Employee newEmployee = EmployeeFactory.createRegularEmployee(id, name, grossSalary);
         return this.putEmployee(id, newEmployee);
     }
 
-    public String createEmployee(String id, String name, double grossSalary, String degree) throws Exception {
+    public String createEmployee(String id, String name, double grossSalary, String degree) throws EmployeeAttributeException {
         Employee newEmployee = EmployeeFactory.createManager(id, name, grossSalary, degree);
         return this.putEmployee(id, newEmployee);
     }
 
-    public String createEmployee(String id, String name, double grossSalary, String degree, String dept) throws Exception {
+    public String createEmployee(String id, String name, double grossSalary, String degree, String dept) throws EmployeeAttributeException {
         Employee newEmployee = EmployeeFactory.createDirector(id, name, grossSalary, degree, dept);
         return this.putEmployee(id, newEmployee);
     }
 
-    public String createEmployee(String id, String name, double grossSalary, int gpa) throws Exception {
+    public String createEmployee(String id, String name, double grossSalary, int gpa) throws EmployeeAttributeException {
         Employee newEmployee = EmployeeFactory.createIntern(id, name, grossSalary, gpa);
         return this.putEmployee(id, newEmployee);
     }
 
-    private String putEmployee(String id, Employee empl) throws Exception {
+    private String putEmployee(String id, Employee empl) throws EmployeeAttributeException {
         if (this.employees.containsKey(id)) {
-            throw new Exception("Cannot register. ID " + id + " is already registered.");
+            throw new EmployeeAttributeException("Cannot register. ID " + id + " is already registered.");
         }
 
         employees.put(id, empl);
         return String.format("Employee %s was registered successfully.", id); // Employee <ID> was registered successfully.
     }
 
-    private Employee retrieveEmployee(String id) throws Exception {
+    private Employee retrieveEmployee(String id) throws EmployeeNotFoundException {
         if (!this.employees.containsKey(id)) {
-            throw new Exception("Employee " + id + " was not registered yet.");
+            throw new EmployeeNotFoundException("Employee " + id + " was not registered yet.");
         }
 
         Employee empl = employees.get(id);
         return empl;
     }
 
-    public String removeEmployee(String id) throws Exception {
+    public String removeEmployee(String id) throws EmployeeNotFoundException {
         if (!this.employees.containsKey(id)) {
-            throw new Exception("Employee " + id + " was not registered yet.");
+            throw new EmployeeNotFoundException("Employee " + id + " was not registered yet.");
         }
 
         this.employees.remove(id);
         return "Employee " + id + " was successfully removed.";
     }
 
-    public double getNetSalary(String id) throws Exception {
+    public double getNetSalary(String id) throws EmployeeNotFoundException {
         Employee employee = retrieveEmployee(id);
         return employee.getNetSalary();
     }
 
-    public double getTotalNetSalary() throws Exception {
+    public double getTotalNetSalary() throws EmployeeNotFoundException {
         if (employees.isEmpty()) {
-            throw new Exception("No employees registered yet.");
+            throw new EmployeeNotFoundException("No employees registered yet.");
         }
 
         double total = 0.0;
@@ -74,9 +74,9 @@ public class Company {
         return total;
     }
 
-    public Map<String, Integer> mapEachDegree() throws Exception {
+    public Map<String, Integer> mapEachDegree() throws EmployeeNotFoundException {
         if (employees.isEmpty()) {
-            throw new Exception("No employees registered yet.");
+            throw new EmployeeNotFoundException("No employees registered yet.");
         }
 
         HashMap<String, Integer> degreesMap = new HashMap<>();
@@ -104,7 +104,7 @@ public class Company {
         return degreesMap;
     }
 
-    public String printEachDegree() throws Exception { // never used, but required in specification
+    public String printEachDegree() throws EmployeeNotFoundException { // never used, but required in specification
         String message = "Academic background of employees:" + EOL;
         Map<String, Integer> degreesMap = mapEachDegree();
 
@@ -114,14 +114,14 @@ public class Company {
         return message;
     }
 
-    public String printEmployee(String id) throws Exception {
+    public String printEmployee(String id) throws EmployeeNotFoundException {
         Employee empl = this.retrieveEmployee(id);
         return empl.toString();
     }
 
-    public String printAllEmployees() throws Exception {
+    public String printAllEmployees() throws EmployeeNotFoundException {
         if (employees.isEmpty()) {
-            throw new Exception("No employees registered yet.");
+            throw new EmployeeNotFoundException("No employees registered yet.");
         }
 
         String message = "All registered employees:" + EOL;
@@ -132,9 +132,9 @@ public class Company {
         return message;
     }
 
-    public String printSortedEmployees() throws Exception {
+    public String printSortedEmployees() throws EmployeeNotFoundException {
         if (employees.isEmpty()) {
-            throw new Exception("No employees registered yet.");
+            throw new EmployeeNotFoundException("No employees registered yet.");
         }
 
         String message = "Employees sorted by gross salary (ascending order):" + EOL;
@@ -149,19 +149,19 @@ public class Company {
         return message;
     }
 
-    public String updateEmployeeName(String id, String newName) throws Exception {
+    public String updateEmployeeName(String id, String newName) throws EmployeeNotFoundException, EmployeeAttributeException {
         Employee empl = this.retrieveEmployee(id);
         empl.setName(newName);
         return "Employee " + id + " was updated successfully";
     }
 
-    public String updateGrossSalary(String id, double newGross) throws Exception {
+    public String updateGrossSalary(String id, double newGross) throws EmployeeNotFoundException, EmployeeAttributeException {
         Employee empl = this.retrieveEmployee(id);
         empl.setBaseSalary(newGross);
         return "Employee " + id + " was updated successfully";
     }
 
-    public String updateManagerDegree(String id, String newDegree) throws Exception {
+    public String updateManagerDegree(String id, String newDegree) throws EmployeeNotFoundException, EmployeeAttributeException {
         Employee empl = retrieveEmployee(id);
 
         if (!(empl instanceof Manager)) {
