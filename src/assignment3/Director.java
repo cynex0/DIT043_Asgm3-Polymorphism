@@ -28,9 +28,10 @@ public class Director extends Manager {
         if (grossSalary < 30000.0) {
             return super.getNetSalary();
         } else if (grossSalary <= 50000.0) {
-            return truncateSalary(grossSalary - (grossSalary * 0.2));
+            double taxAmount = grossSalary * 0.2;
+            return truncateSalary(grossSalary - taxAmount);
         } else {
-            return truncateSalary(grossSalary - (0.2 * 30000.0) - (0.4 * (this.getGrossSalary() - 30000.0)));
+            return truncateSalary(grossSalary - (0.2 * 30000.0) - (0.4 * (grossSalary - 30000.0)));
         }
     }
 
