@@ -39,7 +39,7 @@ public class Manager extends Employee {
     }
 
     public String toString() {
-        // <degree> <name>’s gross salary is <gross_salary> SEK per month.
+        // <degree> <name>'s gross salary is <gross_salary> SEK per month.
         return String.format("%s %s's gross salary is %.2f SEK per month.",
                              this.degree, this.getName(), SalaryTruncator.truncateSalary(this.getGrossSalary()));
     }

@@ -36,7 +36,7 @@ public class Intern extends Employee {
     }
 
     public String toString() {
-        // <name>’s gross salary is <gross_salary> SEK per month. GPA: <gpa>
+        // <name>'s gross salary is <gross_salary> SEK per month. GPA: <gpa>
         return String.format("%s's gross salary is %.2f SEK per month. GPA: %d",
                              this.getName(), this.getGrossSalary(), this.gpa);
     }

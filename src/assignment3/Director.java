@@ -36,7 +36,7 @@ public class Director extends Manager {
     }
 
     public String toString() {
-        // <degree> <name>’s gross salary is <gross_salary> SEK per month. Dept: <department>
+        // <degree> <name>'s gross salary is <gross_salary> SEK per month. Dept: <department>
         return super.toString() + " Dept: " + this.department.toString();
     }
 }

@@ -19,7 +19,7 @@ public class RegularEmployee extends Employee {
 
     @Override
     public String toString() {
-        // <name>’s gross salary is <gross_salary> SEK per month.
+        // <name>'s gross salary is <gross_salary> SEK per month.
         return String.format("%s's gross salary is %.2f SEK per month.", this.getName(), this.getGrossSalary());
     }
 }
