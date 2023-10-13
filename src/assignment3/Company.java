@@ -69,9 +69,9 @@ public class Company {
 
         double total = 0.0;
         for (Employee empl : this.employees.values()) {
-            total = total + SalaryTruncator.truncateSalary(empl.getNetSalary());
+            total = total + empl.getNetSalary();
         }
-        return total;
+        return SalaryTruncator.truncateSalary(total);
     }
 
     public Map<String, Integer> mapEachDegree() throws EmployeeNotFoundException {
