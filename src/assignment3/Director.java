@@ -20,7 +20,7 @@ public class Director extends Manager {
     }
 
     public double getGrossSalary() {
-        return super.getGrossSalary() + BENEFIT;
+        return truncateSalary(super.getGrossSalary() + BENEFIT);
     }
 
     public double getNetSalary() {
@@ -30,7 +30,7 @@ public class Director extends Manager {
         } else if (grossSalary <= 50000.0) {
             return truncateSalary(grossSalary - (grossSalary * 0.2));
         } else {
-            return grossSalary - (0.2 * 30000.0) - (0.4 * (this.getGrossSalary() - 30000.0));
+            return truncateSalary(grossSalary - (0.2 * 30000.0) - (0.4 * (this.getGrossSalary() - 30000.0)));
         }
     }
 

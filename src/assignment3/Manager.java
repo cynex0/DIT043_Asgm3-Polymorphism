@@ -26,7 +26,7 @@ public class Manager extends Employee {
 
     public double getGrossSalary() {
         double rawSalary = this.getBaseSalary();
-        return rawSalary + (rawSalary * bonusMultiplier);
+        return truncateSalary(rawSalary + (rawSalary * bonusMultiplier));
     }
 
     public double getNetSalary() {
