@@ -1,27 +1,27 @@
 package assignment3;
 
 public abstract class Employee implements Comparable<Employee> {
-    public static final double BASE_TAX = 0.1;
+    protected static final double BASE_TAX = 0.1;
 
     private final String id;
     private String name;
-    private double rawSalary;
+    private double baseSalary;
 
     // constructor
-    public Employee(String id, String name, double grossSalary) throws Exception {
+    public Employee(String id, String name, double baseSalary) throws Exception {
         if (id.isBlank()) {
             throw new Exception("ID cannot be blank.");
         }
         if (name.isBlank()) {
             throw new Exception("Name cannot be blank.");
         }
-        if (grossSalary <= 0) {
+        if (baseSalary <= 0) {
             throw new Exception("Salary must be greater than zero.");
         }
 
         this.id = id;
         this.name = name;
-        this.rawSalary = truncateSalary(grossSalary);
+        this.baseSalary = truncateSalary(baseSalary);
     }
 
     protected double truncateSalary(double salary) {
@@ -30,17 +30,12 @@ public abstract class Employee implements Comparable<Employee> {
         return truncatedSalary;
     }
 
-    // getters
-    public String getId() {
-        return this.id;
-    }
-
     public String getName() {
         return this.name;
     }
 
-    public double getRawSalary() {
-        return this.rawSalary;
+    public double getBaseSalary() {
+        return this.baseSalary;
     }
 
     public abstract double getGrossSalary();
@@ -55,11 +50,11 @@ public abstract class Employee implements Comparable<Employee> {
         this.name = name;
     }
 
-    public void updateRawSalary(double newSalary) throws Exception {
+    public void setBaseSalary(double newSalary) throws Exception {
         if (newSalary <= 0) {
             throw new Exception("Salary must be greater than zero.");
         }
-        this.rawSalary = truncateSalary(newSalary);
+        this.baseSalary = truncateSalary(newSalary);
     }
 
     // overrides
@@ -82,7 +77,7 @@ public abstract class Employee implements Comparable<Employee> {
     @Override
     public String toString() {
         // <name>’s gross salary is <gross_salary> SEK per month.
-        double truncatedSalary = truncateSalary(this.rawSalary);
+        double truncatedSalary = truncateSalary(this.baseSalary);
         return String.format("%s's gross salary is %.2f SEK per month.", this.name, truncatedSalary);
     }
 

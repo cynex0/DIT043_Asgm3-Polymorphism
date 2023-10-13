@@ -8,12 +8,12 @@ public class RegularEmployee extends Employee {
 
     @Override
     public double getGrossSalary() {
-        return this.getRawSalary();
+        return this.getBaseSalary();
     }
 
     @Override
     public double getNetSalary() {
-        double rawSalary = this.getRawSalary();
+        double rawSalary = this.getBaseSalary();
         return truncateSalary(rawSalary - (rawSalary * BASE_TAX));
     }
 }

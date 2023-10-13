@@ -10,6 +10,15 @@ public class Director extends Manager {
         updateDepartment(dept);
     }
 
+    public void updateDepartment(String newDept) throws Exception {
+        switch (newDept) {
+            case "Human Resources" -> this.department = Department.HUMAN_RESOURCES;
+            case "Technical" -> this.department = Department.TECHNICAL;
+            case "Business" -> this.department = Department.BUSINESS;
+            default -> throw new Exception("Department must be one of the options: Business, Human Resources or Technical.");
+        }
+    }
+
     public double getGrossSalary() {
         return super.getGrossSalary() + BENEFIT;
     }
@@ -22,15 +31,6 @@ public class Director extends Manager {
             return truncateSalary(grossSalary - (grossSalary * 0.2));
         } else {
             return grossSalary - (0.2 * 30000.0) - (0.4 * (this.getGrossSalary() - 30000.0));
-        }
-    }
-
-    public void updateDepartment(String newDept) throws Exception {
-        switch (newDept) {
-            case "Human Resources" -> this.department = Department.HUMAN_RESOURCES;
-            case "Technical" -> this.department = Department.TECHNICAL;
-            case "Business" -> this.department = Department.BUSINESS;
-            default -> throw new Exception("Department must be one of the options: Business, Human Resources or Technical.");
         }
     }
 
