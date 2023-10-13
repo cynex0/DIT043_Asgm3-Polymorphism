@@ -24,10 +24,10 @@ public class Intern extends Employee {
             return 0;
         }
         else if (gpa < 8) {
-            return truncateSalary(this.getBaseSalary());
+            return this.getBaseSalary();
         }
         else {
-            return truncateSalary(this.getBaseSalary() + BENEFIT);
+            return this.getBaseSalary() + BENEFIT;
         }
     }
 

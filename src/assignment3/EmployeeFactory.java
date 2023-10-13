@@ -13,7 +13,7 @@ public class EmployeeFactory {
         return new Director(id, name, grossSalary, degree, dept);
     }
 
-    public static Employee createIntern(String id, String name, double grossSalary, int gpa) throws EmployeeAttributeException {
+        public static Employee createIntern(String id, String name, double grossSalary, int gpa) throws EmployeeAttributeException {
         return new Intern(id, name, grossSalary, gpa);
     }
 }

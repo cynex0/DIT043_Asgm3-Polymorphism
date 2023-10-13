@@ -59,7 +59,7 @@ public class Company {
 
     public double getNetSalary(String id) throws EmployeeNotFoundException {
         Employee employee = retrieveEmployee(id);
-        return employee.getNetSalary();
+        return SalaryTruncator.truncateSalary(employee.getNetSalary());
     }
 
     public double getTotalNetSalary() throws EmployeeNotFoundException {
@@ -69,7 +69,7 @@ public class Company {
 
         double total = 0.0;
         for (Employee empl : this.employees.values()) {
-            total = total + empl.getNetSalary();
+            total = total + SalaryTruncator.truncateSalary(empl.getNetSalary());
         }
         return total;
     }

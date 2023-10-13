@@ -26,12 +26,12 @@ public class Manager extends Employee {
 
     public double getGrossSalary() {
         double rawSalary = this.getBaseSalary();
-        return truncateSalary(rawSalary + (rawSalary * bonusMultiplier));
+        return rawSalary + (rawSalary * bonusMultiplier);
     }
 
     public double getNetSalary() {
         double grossSalary = this.getGrossSalary();
-        return truncateSalary(grossSalary - (grossSalary * BASE_TAX));
+        return grossSalary - (grossSalary * BASE_TAX);
     }
 
     public String getDegree() {
@@ -41,6 +41,6 @@ public class Manager extends Employee {
     public String toString() {
         // <degree> <name>’s gross salary is <gross_salary> SEK per month.
         return String.format("%s %s's gross salary is %.2f SEK per month.",
-                             this.degree, this.getName(), this.getGrossSalary());
+                             this.degree, this.getName(), SalaryTruncator.truncateSalary(this.getGrossSalary()));
     }
 }
