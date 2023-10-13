@@ -20,7 +20,7 @@ public class Director extends Manager {
     }
 
     public double getGrossSalary() {
-        return truncateSalary(super.getGrossSalary() + BENEFIT);
+        return super.getGrossSalary() + BENEFIT;
     }
 
     public double getNetSalary() {
@@ -29,14 +29,14 @@ public class Director extends Manager {
             return super.getNetSalary();
         } else if (grossSalary <= 50000.0) {
             double taxAmount = grossSalary * 0.2;
-            return truncateSalary(grossSalary - taxAmount);
+            return grossSalary - taxAmount;
         } else {
-            return truncateSalary(grossSalary - (0.2 * 30000.0) - (0.4 * (grossSalary - 30000.0)));
+            return grossSalary - (0.2 * 30000.0) - (0.4 * (grossSalary - 30000.0));
         }
     }
 
     public String toString() {
-        // <degree> <name>’s gross salary is <gross_salary> SEK per month. Dept: <department>
+        // <degree> <name>'s gross salary is <gross_salary> SEK per month. Dept: <department>
         return super.toString() + " Dept: " + this.department.toString();
     }
 }

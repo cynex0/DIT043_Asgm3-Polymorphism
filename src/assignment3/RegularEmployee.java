@@ -14,6 +14,12 @@ public class RegularEmployee extends Employee {
     @Override
     public double getNetSalary() {
         double rawSalary = this.getBaseSalary();
-        return truncateSalary(rawSalary - (rawSalary * BASE_TAX));
+        return (rawSalary - (rawSalary * BASE_TAX));
+    }
+
+    @Override
+    public String toString() {
+        // <name>'s gross salary is <gross_salary> SEK per month.
+        return String.format("%s's gross salary is %.2f SEK per month.", this.getName(), this.getGrossSalary());
     }
 }

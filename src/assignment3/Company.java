@@ -59,7 +59,7 @@ public class Company {
 
     public double getNetSalary(String id) throws EmployeeNotFoundException {
         Employee employee = retrieveEmployee(id);
-        return employee.getNetSalary();
+        return SalaryTruncator.truncateSalary(employee.getNetSalary());
     }
 
     public double getTotalNetSalary() throws EmployeeNotFoundException {
@@ -71,7 +71,7 @@ public class Company {
         for (Employee empl : this.employees.values()) {
             total = total + empl.getNetSalary();
         }
-        return total;
+        return SalaryTruncator.truncateSalary(total);
     }
 
     public Map<String, Integer> mapEachDegree() throws EmployeeNotFoundException {

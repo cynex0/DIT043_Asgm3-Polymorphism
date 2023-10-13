@@ -21,13 +21,7 @@ public abstract class Employee implements Comparable<Employee> {
 
         this.id = id;
         this.name = name;
-        this.baseSalary = truncateSalary(baseSalary);
-    }
-
-    protected double truncateSalary(double salary) {
-        int salaryInt = (int)(salary * 100);
-        double truncatedSalary = salaryInt / 100.0;
-        return truncatedSalary;
+        this.baseSalary = SalaryTruncator.truncateSalary(baseSalary);
     }
 
     public String getName() {
@@ -54,7 +48,7 @@ public abstract class Employee implements Comparable<Employee> {
         if (newSalary <= 0) {
             throw new EmployeeAttributeException("Salary must be greater than zero.");
         }
-        this.baseSalary = truncateSalary(newSalary);
+        this.baseSalary = SalaryTruncator.truncateSalary(newSalary);
     }
 
     // overrides
@@ -74,12 +68,7 @@ public abstract class Employee implements Comparable<Employee> {
         return this.id.equals(other.id);
     }
 
-    @Override
-    public String toString() {
-        // <name>’s gross salary is <gross_salary> SEK per month.
-        double truncatedSalary = truncateSalary(this.baseSalary);
-        return String.format("%s's gross salary is %.2f SEK per month.", this.name, truncatedSalary);
-    }
+    public abstract String toString();
 
     @Override
     public int compareTo(Employee empl) {
