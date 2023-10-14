@@ -165,7 +165,7 @@ public class Company {
         Employee empl = retrieveEmployee(id);
 
         if (!(empl instanceof Manager)) {
-            return "Error"; // TODO: Exception
+            throw new EmployeeNotFoundException("Employee" + id + " is not a Manager.");
         }
 
         Manager manager = (Manager)empl;
@@ -173,11 +173,11 @@ public class Company {
         return "Employee " + id + " was updated successfully";
     }
 
-    public String updateDirectorDept(String id, String newDept) throws Exception {
+    public String updateDirectorDept(String id, String newDept) throws EmployeeNotFoundException, EmployeeAttributeException {
         Employee empl = retrieveEmployee(id);
 
         if (!(empl instanceof Director)) {
-            return "Error"; // TODO: Exception
+            throw new EmployeeNotFoundException("Employee" + id + " is not a Director.");
         }
 
         Director director = (Director)empl;
@@ -185,11 +185,11 @@ public class Company {
         return "Employee " + id + " was updated successfully";
     }
 
-    public String updateInternGPA(String id, int newGpa) throws Exception {
+    public String updateInternGPA(String id, int newGpa) throws EmployeeNotFoundException, EmployeeAttributeException {
         Employee empl = retrieveEmployee(id);
 
         if (!(empl instanceof Intern)) {
-            return "Error"; // TODO: Exception
+            throw new EmployeeNotFoundException("Employee" + id + " is not an Intern.");
         }
 
         Intern intern = (Intern)empl;
@@ -197,13 +197,13 @@ public class Company {
         return "Employee " + id + " was updated successfully";
     }
 
-    public String promoteToManager(String id, String degree) throws Exception {
+    public String promoteToManager(String id, String degree) throws EmployeeNotFoundException, EmployeeAttributeException {
         Employee empl = retrieveEmployee(id);
 
         String name = empl.getName();
-        double rawSalary = empl.getBaseSalary();
+        double baseSalary = empl.getBaseSalary();
 
-        Employee manager = EmployeeFactory.createManager(id, name, rawSalary, degree);
+        Employee manager = EmployeeFactory.createManager(id, name, baseSalary, degree);
 
         this.employees.remove(id);
         this.employees.put(id, manager);
@@ -211,13 +211,13 @@ public class Company {
         return id + " promoted successfully to Manager.";
     }
 
-    public String promoteToDirector(String id, String degree, String dept) throws Exception {
+    public String promoteToDirector(String id, String degree, String dept) throws EmployeeNotFoundException, EmployeeAttributeException {
         Employee empl = retrieveEmployee(id);
 
         String name = empl.getName();
-        double rawSalary = empl.getBaseSalary();
+        double baseSalary = empl.getBaseSalary();
 
-        Employee director = EmployeeFactory.createDirector(id, name, rawSalary, degree, dept);
+        Employee director = EmployeeFactory.createDirector(id, name, baseSalary, degree, dept);
 
         this.employees.remove(id);
         this.employees.put(id, director);
@@ -225,13 +225,13 @@ public class Company {
         return id + " promoted successfully to Director.";
     }
 
-    public String promoteToIntern(String id, int gpa) throws Exception {
+    public String promoteToIntern(String id, int gpa) throws EmployeeNotFoundException, EmployeeAttributeException {
         Employee empl = retrieveEmployee(id);
 
         String name = empl.getName();
-        double rawSalary = empl.getBaseSalary();
+        double baseSalary = empl.getBaseSalary();
 
-        Employee intern = EmployeeFactory.createIntern(id, name, rawSalary, gpa);
+        Employee intern = EmployeeFactory.createIntern(id, name, baseSalary, gpa);
 
         this.employees.remove(id);
         this.employees.put(id, intern);
